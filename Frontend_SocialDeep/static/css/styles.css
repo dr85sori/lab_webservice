@@ -1,0 +1,60 @@
+body {
+  background-color: #000000;
+}
+h2 {
+  color: #808080;
+}
+h3 {
+  color: #ffffff;
+}
+h4 {
+  color: #ffffff;
+}
+div.login-deep-dream-app {
+  padding: 16% 40%;
+  display: block;
+  color: #ffffff;
+}
+div.storyElement {
+  display: none;
+  background-color: #000000;
+}
+div.ex1 {
+  	background-color: #000000;
+  	width: 83%;
+  	height: 700px;
+  	overflow: hidden;
+  	overflow-y: scroll;
+  	overflow-x: scroll;
+}
+div.commentsContainer {
+	background-color: #020512;
+  color: #ffffff;
+	width: 150px
+	height: 70px;
+  overflow: hidden;
+}
+.ex1::-webkit-scrollbar {
+  float: left;
+  display: none;
+}
+.ex1 {
+  -ms-overflow-style: none;
+}
+#formElem {
+  color: #ffffff;
+}
+img {
+  width:1280px;
+  height:720px;
+  object-fit:scale-down;
+}
+#upload_button {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 40px;
+  cursor: pointer;
+}

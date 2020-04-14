@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> Social Style Transfer APP</title>
+  <script src="static/js/script-working.js"></script>
+  <script src="static/scripts.js"></script>
+  <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+  <!-- login view -->
+  <div class="login-deep-dream-app" id="login_screen">
+    <h2>
+      user login
+    </h2>
+    <p id="label_name">name:</p>
+    <input id="input_user" type="text">
+    <p id="label_password">password:</p>
+    <input id="input_password" type="password">
+    <p></p>
+    <button type="button" onclick="clickLoginButton()">login</button>
+    <div id="result-login">
+      <p id="paragraph-for-token"></p>
+    </div>
+  </div>
+  <!-- content view -->
+  <div class="storyElement" id="story_screen">
+		<h2>Your Storyboard</h2>
+		<span>
+		<div class="ex1" id="pictureContainer" >
+			<h3>Pictures</h2>
+			<div id="pictures">
+			</div>
+		</div>
+		<button type="button" onclick="clickUploadPicture()" id="upload_button">upload pictures</button>
+		<!--
+    <button type="button" onclick="clickshowallimage()">add pictures</button>-->
+		</span>
+		<p></p>
+		<div class="commentsContainer">
+			<h4>Comments</h4>
+			<div id="comments">
+				<p>test</p>
+        <p>cool picture</p>
+        <p>qwerty</p>
+			</div>
+		</div>
+	</div>
+  <!-- upload view-->
+  <div id = "upload_picture" style="display: none">
+    <button id = "back_to_mainpage_from_upload" onclick="clickBackToMainFromUpload()">back</button>
+    <div id="uploadFormular">
+    <form id="formElem">
+      Picture: <input type="file" name="imageData" accept="image/*" id="id">
+      <input type="submit">
+    </form>
+    <script>
+      formElem.onsubmit = async (e) => {
+      e.preventDefault();
+              let response = await fetch('http://localhost:8080/image', {
+                method: 'POST',
+                headers: new Headers({
+                    'Authorization': "Bearer " + returnToken(),
+                    }), 
+                body: new FormData(formElem)
+              });
+              //console.log(response);
+              let result = await response.json();
+          
+              console.log(result);
+              //console.log(returnToken());
+              //document.getElementById("label_gesendet").innerText="Bild hochgeladen";
+            
+        console.log(result.id);
+        update_after_upload(result.id);
+      };
+    </script>
+    </div>
+  </div>
+</body>
+</html>
