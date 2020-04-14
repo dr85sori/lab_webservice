@@ -13,6 +13,7 @@ import java.util.Optional;
 
 // Behandlung der REST-Zugriffe
 @RestController             // Klasse wird als Rest-Controller konfiguriert
+@CrossOrigin
 @RequestMapping("image")    //  Pfad für die images Funktion
 public class ImageRestController {
 

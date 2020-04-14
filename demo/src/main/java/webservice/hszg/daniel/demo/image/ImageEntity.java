@@ -10,14 +10,15 @@ import java.util.Set;
 @Entity
 public class ImageEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;   // eindeutige Referenz zum Bild
     @Lob
     @JsonIgnore
     private byte[] imagedaten; // Bild in Bytes
 
     @ManyToOne
-    private Set<ImageComment> imageComments; // Sammlung von Kommentaren Set rausnehmen
+    private ImageComment imageComments; // Sammlung von Kommentaren Set rausnehmen
+   // private Set<ImageComment> imageComments;
 
     private int likes;   // Anzahl Daumen-hoch
     private int dislikes; // Anzahl Daumen-runter
@@ -40,11 +41,11 @@ public class ImageEntity {
         this.imagedaten = imagedaten;
     }
 
-    public Set<ImageComment> getImageComments() {
+    public ImageComment getImageComments() {
         return imageComments;
     }
 
-    public void setImageComments(Set<ImageComment> imageComments) {
+    public void setImageComments(ImageComment imageComments) {
         this.imageComments = imageComments;
     }
 
