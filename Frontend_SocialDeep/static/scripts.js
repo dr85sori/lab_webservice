@@ -1,6 +1,6 @@
 
 var token_global;
-
+var pictureCounter = 0;
 function update_content() {
   		var request = new XMLHttpRequest();
   		(function loop(i, length) {
@@ -61,14 +61,18 @@ function update_after_upload(current_id) {
         	var data = biStr.join('');
         	var base64 = window.btoa(data);
         	var pictureID = 'pic';
-        	window[pictureID+current_id] = document.createElement('img');
-  			window[pictureID+current_id].setAttribute('src', "data:image/png;base64," + base64);
+			window[pictureID+current_id] = document.createElement('img');
+			window[pictureID+current_id].setAttribute('id', pictureID+current_id);
+			window[pictureID+current_id].setAttribute('src', "data:image/png;base64," + base64);
+			var test=pictureID+current_id; 
+			window[pictureID+current_id].setAttribute('onclick', "test(this)" );  
         	document.getElementById("pictureContainer").appendChild(window[pictureID+current_id]);
     	} else {
         	console.log("error Bild nicht gefunden");
     	}
 	}
-    request.send();
+	request.send();
+	pictureCounter=current_id;
 }
 
 function clickLoginButton() {
@@ -103,6 +107,15 @@ function clickSendButtonPicInfo(pictureID)
     xmlHttp.send( null );
     document.getElementById('list').innerHTML = "" + xmlHttp.responseText;		//list
 }
+
+function addPicture(url) {
+	var pictureID = 'pic';
+	console.log(pictureID+pictureCounter);
+	window[pictureID+pictureCounter] = document.createElement('img');
+	window[pictureID+pictureCounter].setAttribute('src', url);
+	document.getElementById("pictureContainer").appendChild(window[pictureID+pictureCounter]);
+	pictureCounter++;
+  }
 
 function clickSendButtonPic(pictureID) 
 {
@@ -139,23 +152,60 @@ function clickUploadPicture() {
 	//todo
 }
 
+
+
+function test(test_obj ) {
+	console.log("hallo "+ test_obj.id);
+	console.log(document.getElementById(test_obj.id).src)
+	clickDeepDreamAction(test_obj.id);
+
+
+}
+
 function returnToken(){
 	return token_global;
-  }
+}
 
-function clickDeepDreamAction() {
+function clickDeepDreamAction(ID) {
 	
 	 // OR include deepai.min.js as a script tag in your HTML
-	//const deepai = require('deepai');
-	deepai.setApiKey('quickstart-QUdJIGlzIGNvbWluZy4uLi4K');
-
+	// 45179863-670a-47ee-9704-e6f99a003c43
+	deepai.setApiKey('45179863-670a-47ee-9704-e6f99a003c43');
+	console.log(document.getElementById(ID).id);
 	(async function() {
     	var resp = await deepai.callStandardApi("deepdream", {
-            image: document.getElementById('myImage'),
+            image: document.getElementById(ID).src,
     	});
-    	console.log(resp);
+		console.log(resp);
+		addPicture(resp.output_url);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://api.deepai.org/job-view-file/62f48654-4e6b-49ed-9ad1-ded1adc4f709/outputs/output.jpg", false);
+		xhr.setRequestHeader( "Authorization", "Bearer " + token_global);
+		xhr.send("http://localhost:8080/image");
+		console.log(xhr.status);
+		console.log(xhr.statusText);
 	})()
+
+	
 }
+
+
+function toDataURL(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      callback(reader.result);
+    }
+    reader.readAsDataURL(xhr.response);
+  };
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.send();
+}
+
+
+
 
 function clickSendget_picture_infoButton()
 {
